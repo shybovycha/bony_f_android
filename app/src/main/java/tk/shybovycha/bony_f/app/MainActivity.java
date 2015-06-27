@@ -22,6 +22,7 @@ import java.util.List;
 
 public class MainActivity extends Activity {
     private CallbackManager mCallbackManager;
+    private FacebookLoginCallback mFbLoginCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,38 +35,9 @@ public class MainActivity extends Activity {
 
         LoginManager.getInstance().logInWithReadPermissions(this, permissionNeeds);
 
-        LoginManager.getInstance().registerCallback(mCallbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResults) {
-                        GraphRequest request = GraphRequest.newMeRequest(
-                                loginResults.getAccessToken(),
-                                new GraphRequest.GraphJSONObjectCallback() {
-                                    @Override
-                                    public void onCompleted(
-                                            JSONObject object,
-                                            GraphResponse response) {
-                                        // Application code
-                                        Log.v("MOOFB", response.toString());
-                                    }
-                                });
+        mFbLoginCallback = new FacebookLoginCallback();
 
-                        Bundle parameters = new Bundle();
-                        parameters.putString("fields", "id,name,email,gender, birthday");
-                        request.setParameters(parameters);
-                        request.executeAsync();
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        Log.e("MOOFB", "facebook login canceled");
-                    }
-
-                    @Override
-                    public void onError(FacebookException e) {
-                        Log.e("MOOFB", "facebook login failed error");
-                    }
-                });
+        LoginManager.getInstance().registerCallback(mCallbackManager, mFbLoginCallback);
 
         Button fbLoginButton = (Button) findViewById(R.id.fb_login_button);
         fbLoginButton.setOnClickListener(new View.OnClickListener() {
