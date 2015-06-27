@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Bony-F</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="facebook_app_id">1619867278299351</string>
+    <string name="facebook_app_name">bony_f</string>
+</resources>
